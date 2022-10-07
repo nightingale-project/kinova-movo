@@ -37,7 +37,7 @@ if len(sys.argv) != 2:
 installation_files = pickle.loads(sys.argv[1])
 
 # Check first for writability, creating paths if necessary.
-paths = set([os.path.dirname(filename) for filename in installation_files.keys()])
+paths = set([os.path.dirname(filename) for filename in list(installation_files.keys())])
 
 for path in paths:
     if os.path.exists(path):
@@ -53,7 +53,7 @@ for path in paths:
 # Mutate files according to the provided spec. We sort the list in reverse length
 # order so that when we are trying to remove a directory it is after everything in
 # it has already been removed.
-paths = installation_files.keys()
+paths = list(installation_files.keys())
 paths.sort(key=len, reverse=True)
 for path in paths:
     recipe = installation_files[path]
