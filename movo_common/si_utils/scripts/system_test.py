@@ -191,7 +191,7 @@ if __name__ == "__main__":
     
     print("Torso Joint Trajectory Action Test Complete")
     
-    print
+    print()
     print("----------------------------------------------------")
     print("Exiting - All Joint Trajectory Action Test Complete")
     print("----------------------------------------------------")

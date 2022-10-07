@@ -47,14 +47,14 @@ def validate_ipv4(argument,name):
     Each address must have 4 
     """
     if len(argument.split(".")) != 4:
-        print("Invalid %s, must be of the form xxx.yyy.zzz.www" % name)
+        print(("Invalid %s, must be of the form xxx.yyy.zzz.www" % name))
         exit(-1)
     for x in argument.split("."):
         if len(x) > 3:
-            print("Invalid %s, must be of the form xxx.yyy.zzz.www" % name)
+            print(("Invalid %s, must be of the form xxx.yyy.zzz.www" % name))
             exit(-1)
         if int(x) > 255:
-            print("Invalid %s, octects must be less than 255" % name)
+            print(("Invalid %s, octects must be less than 255" % name))
             exit(-1)
 
 def parse_hokuyo_ipv4(argument, name):
@@ -80,9 +80,9 @@ def parse_movo_rsp(rsp,new_settings):
     
     if not valid_rsp:
         return False
-    print new_settings,rsp_data[ROS_FRAM_ETH_IP_ADDRESS_INDEX:]
+    print(new_settings,rsp_data[ROS_FRAM_ETH_IP_ADDRESS_INDEX:])
     for i in range(len(new_settings)):
-        print new_settings[i],rsp_data[ROS_FRAM_ETH_IP_ADDRESS_INDEX+i]
+        print(new_settings[i],rsp_data[ROS_FRAM_ETH_IP_ADDRESS_INDEX+i])
         if new_settings[i] != rsp_data[ROS_FRAM_ETH_IP_ADDRESS_INDEX+i]:
             valid_rsp = False
             break
@@ -114,7 +114,7 @@ if __name__ == "__main__":
     """
     First kill the movo core process
     """
-    print "Shutting down the movo-core service"
+    print("Shutting down the movo-core service")
     os.system("sudo service movo-core status")
     
     """
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     """
     crc16.generate_crc_table()
     
-    print("Connecting to Movo platform %s" % args.movo_settings[0])
+    print(("Connecting to Movo platform %s" % args.movo_settings[0]))
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.connect((args.movo_settings[0],8080))
     
@@ -143,7 +143,7 @@ if __name__ == "__main__":
         platform_streaming = False
         
     if (True == platform_streaming):
-        print "Could not stop platform stream"
+        print("Could not stop platform stream")
         sock.close()
         exit(-1)
     
@@ -155,7 +155,7 @@ if __name__ == "__main__":
     cmd_bytes = generate_cmd_bytes(new_settings)
     cmd_str = ''.join([chr(i) for i in cmd_bytes])
     
-    print "Updating Movo ethernet settings"
+    print("Updating Movo ethernet settings")
     
     sock.send(cmd_str)
     cmd_none = [GENERAL_PURPOSE_CMD_ID,[GENERAL_PURPOSE_CMD_NONE,0]]
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     if (args.update_hokuyo):
         msg = "$IP" + ip + nm + gw + chr(0x0a)
         
-        print("Connecting to laser: %s" % args.hokuyo_settings[0])
+        print(("Connecting to laser: %s" % args.hokuyo_settings[0]))
         sock = socket.socket()
         sock.connect((args.hokuyo_settings[0], 10940))
 
@@ -228,7 +228,7 @@ if __name__ == "__main__":
             exit(-1)
         
 
-    print "Please udpate the settings in the 50.movo_env.sh file that gets sources by workspace or by ros package"        
+    print("Please udpate the settings in the 50.movo_env.sh file that gets sources by workspace or by ros package")        
 
 
 

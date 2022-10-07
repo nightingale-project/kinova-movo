@@ -104,7 +104,7 @@ def main():
     
     tmp = rospy.wait_for_message("/movo/head/joint_states", JointState)
     current_angles= tmp.position
-    print current_angles
+    print(current_angles)
     traj = HeadJTASTest()
     traj.add_point(list(current_angles), 0.0)
     

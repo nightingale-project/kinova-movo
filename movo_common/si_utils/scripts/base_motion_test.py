@@ -209,7 +209,7 @@ class BaseMotionTest(object):
                 self._base_vel_pub.publish(Twist())
                 r.sleep()
         except Exception as ex:
-            print "Message of base motion failed to be published, error message: ", ex.message
+            print("Message of base motion failed to be published, error message: ", ex.message)
             pass
 
 
