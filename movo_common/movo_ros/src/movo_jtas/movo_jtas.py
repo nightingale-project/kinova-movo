@@ -291,7 +291,7 @@ class MovoArmJTAS(object):
         # Position to 0:0.165 == close:open
         position = goal.command.position
         effort = goal.command.max_effort
-        print position
+        print(position)
 
         # Reset feedback/result
         self._update_gripper_feedback(position)

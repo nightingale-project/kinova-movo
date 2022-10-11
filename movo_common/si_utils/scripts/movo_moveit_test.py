@@ -97,12 +97,12 @@ def movo_moveit_test():
 
     ## We can get a list of all the groups in the robot
     print("============ Robot Groups:")
-    print(robot.get_group_names())
+    print((robot.get_group_names()))
 
     ## Sometimes for debugging it is useful to print the entire state of the
     ## robot.
     print("============ Printing robot state")
-    print(robot.get_current_state())
+    print((robot.get_current_state()))
     print("============")
     
     group.set_planner_id("RRTConnectkConfigDefault")
