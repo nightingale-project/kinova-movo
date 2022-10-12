@@ -44,6 +44,8 @@ if __name__ == "__main__":
     rospy.init_node('movo_driver')
     
     movo_ip = rospy.get_param('~movo_ip','10.66.171.5')
+    print("YOUNES DEBUG: ", movo_ip)
+    #movo_ip = '10.66.171.4'
     driver = MovoDriver(movo_ip)
     rospy.on_shutdown(driver.Shutdown)
     rospy.spin()

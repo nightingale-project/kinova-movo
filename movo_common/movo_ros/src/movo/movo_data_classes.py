@@ -341,8 +341,9 @@ class Movo_Dynamics:
         self._jointStatePub.publish(self._jointStateMsg)
         if (False == self._use_lsm_for_odom):
             self._update_odom_yaw(self._OdomData1)
-            self._OdomData2 = self._OdomData1
-            self._OdomPub2.publish(self._OdomData2)        
+            if hasattr(self,"_OdomPub2"):
+                self._OdomData2 = self._OdomData1
+                self._OdomPub2.publish(self._OdomData2)        
             br = tf.TransformBroadcaster()
             br.sendTransform((x,y,z),
                              rot,

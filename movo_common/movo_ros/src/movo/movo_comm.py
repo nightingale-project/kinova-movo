@@ -64,7 +64,7 @@ command_ids = dict({"GENERAL_PURPOSE_CMD_NONE":                   0,
 
 class MovoDriver:
     def __init__(self,movo_ip='10.66.171.5'):
-
+        rospy.loginfo("MovoDriver instantiated with {}".format(movo_ip))
         """
         Variables to track communication frequency for debugging
         """
@@ -108,9 +108,10 @@ class MovoDriver:
         set the ethernet settings at launch to the current ethernet settings, power up, change them, power down, set the
         the ethernet settings at launch to the new ones and relaunch
         """
-        r = rospy.Rate(10)
+        r = rospy.Rate(2)
         start_time = rospy.Time.now().to_sec()
-        while ((rospy.Time.now().to_sec() - start_time) < 3.0) and (False == self.param_server_initialized):
+        while False == self.param_server_initialized:
+            rospy.loginfo("Waiting for parameters")
             r.sleep()
         
         if (False == self.param_server_initialized):
@@ -246,7 +247,7 @@ class MovoDriver:
         self.last_rsp_rcvd = rospy.Time.now().to_sec()
     
     def _handle_rsp(self,data_bytes):
-        
+        #rospy.loginfo("handle_rsp")
         if (True == self.flush_rcvd_data) or (True == rospy.is_shutdown()):
             return
            
@@ -266,24 +267,30 @@ class MovoDriver:
             self.extracting_faultlog = False
             faultlog_msg = Faultlog()
             faultlog_msg.data = rsp_data
+            rospy.loginfo("Faultlog: {}".format(str(faultlog_msg)))
             self.faultlog_pub.publish(faultlog_msg)
         else:
-            
-            header_stamp = self.movo_data.status.parse(rsp_data[START_STATUS_BLOCK:END_STATUS_BLOCK])
-            wheel_circum = self.movo_data.config_param.parse(rsp_data[START_APP_CONFIG_BLOCK:END_FRAM_CONFIG_BLOCK],header_stamp)
-            self.movo_data.auxiliary_power.parse(rsp_data[START_BATTERY_DATA_BLOCK:END_BATTERY_DATA_BLOCK],header_stamp)
-            self.movo_data.propulsion.parse(rsp_data[START_PROPULSION_DATA_BLOCK:END_PROPULSION_DATA_BLOCK],header_stamp)
-            self.movo_data.dynamics.parse(rsp_data[START_DYNAMICS_DATA_BLOCK:END_DYNAMICS_DATA_BLOCK],header_stamp,wheel_circum)            
-            self.movo_data.imu.parse_data(rsp_data[START_IMU_DATA_BLOCK:END_IMU_DATA_BLOCK],header_stamp)
-            self._update_rcv_frq()
-            
-            rospy.logdebug("feedback received from movo")
+            try:
+                header_stamp = self.movo_data.status.parse(rsp_data[START_STATUS_BLOCK:END_STATUS_BLOCK])
+                wheel_circum = self.movo_data.config_param.parse(rsp_data[START_APP_CONFIG_BLOCK:END_FRAM_CONFIG_BLOCK],header_stamp)
+                self.movo_data.auxiliary_power.parse(rsp_data[START_BATTERY_DATA_BLOCK:END_BATTERY_DATA_BLOCK],header_stamp)
+                self.movo_data.propulsion.parse(rsp_data[START_PROPULSION_DATA_BLOCK:END_PROPULSION_DATA_BLOCK],header_stamp)
+                self.movo_data.dynamics.parse(rsp_data[START_DYNAMICS_DATA_BLOCK:END_DYNAMICS_DATA_BLOCK],header_stamp,wheel_circum)            
+                self.movo_data.imu.parse_data(rsp_data[START_IMU_DATA_BLOCK:END_IMU_DATA_BLOCK],header_stamp)
+                self._update_rcv_frq()
+                
+                rospy.logdebug("feedback received from movo")
+            except Exception as ex:
+                import traceback
+                traceback.print_tb()
+                print(ex)
         
     def _add_motion_command_to_queue(self,command):
         
         """
         Add the command to the queue, platform does command limiting and mapping
         """
+        rospy.logerr(f"YOUNES DEBUG received motion command. {command.linear.x}, {command.linear.y}, {command.angular.z}")
         cmds = [MOTION_CMD_ID,[convert_float_to_u32(command.linear.x),
                                convert_float_to_u32(command.linear.y),
                                convert_float_to_u32(command.angular.z)]]
@@ -486,10 +493,11 @@ class MovoDriver:
     def _extract_faultlog(self):
         r = rospy.Rate(2)        
         start_time = rospy.Time.now().to_sec()
+        rospy.loginfo("Requesting faultlog")
         while ((rospy.Time.now().to_sec() - start_time) < 3.0) and (True == self.extracting_faultlog):
             self._add_command_to_queue([GENERAL_PURPOSE_CMD_ID,[GENERAL_PURPOSE_CMD_SEND_FAULTLOG,0]]) 
             r.sleep()
-            
+        print("Finished waiting for faultlog") 
         return not self.extracting_faultlog
     
     def _initial_param_force_update(self):
@@ -501,7 +509,8 @@ class MovoDriver:
         start_time = rospy.get_time()
         params_loaded = False
 
-        while ((rospy.get_time() - start_time) < 3.0) and (False == params_loaded):
+        while (False == params_loaded):
+            rospy.loginfo("Waiting for driver to report requested configuration")
             load_params = False
 
             for i in range(NUMBER_OF_CONFIG_PARAM_VARIABLES):
@@ -511,6 +520,7 @@ class MovoDriver:
                 self._add_command_to_queue(self.valid_config_cmd)
                 r.sleep()
             else:
+                rospy.loginfo("Driver reported requested configuration")
                 params_loaded = True
         
         return params_loaded

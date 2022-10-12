@@ -94,15 +94,19 @@ class IoEthThread(object):
             if (len(result[0])>0):
                 message = result[0][0].recv(self.max_packet_size)
                 message_bytes= array.array('B',message)
+                if str(self.remote_address) == '10.66.171.5':
+                    print("YOUNES DEBUG: got a msg from the black box")
                 self.rx_queue.put(message_bytes)
             
     def transmit(self):
         while True:
             with self.transmit_terminate_mutex:
+                #younes todo here
                 if self.need_to_terminate:
                     break    
             result = select.select([self.tx_queue._reader],[],[],1.0)
             if (len(result[0])>0):
                 data = result[0][0].recv()
+                print("YONES DEBUG: ", data.tostring())
                 self.conn.sendall(data.tostring())
         
