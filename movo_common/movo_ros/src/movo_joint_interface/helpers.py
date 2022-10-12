@@ -47,12 +47,20 @@ def dottedQuadToNum(ip):
 
 def get_ip_address(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    return socket.inet_ntoa(fcntl.ioctl(
+    print(ifname[:15])
+    print(len(ifname[:15]))
+    struct_pack = struct.pack('256s', bytes(ifname[:15], encoding='utf-8'))
+    print(struct_pack)
+    fctnl_ioctl = fcntl.ioctl(
         s.fileno(),
         0x8915,  # SIOCGIFADDR
-        struct.pack('256s', ifname[:15])
-    )[20:24])
-    
+        struct_pack
+    )
+    print(fctnl_ioctl)
+    skt_inet_ntoa = socket.inet_ntoa(fctnl_ioctl[20:24])
+    print(skt_inet_ntoa)
+    return skt_inet_ntoa
+
 
 def limit(signal_in,signal_limit):
 
