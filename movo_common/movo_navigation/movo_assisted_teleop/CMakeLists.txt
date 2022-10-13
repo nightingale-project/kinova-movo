@@ -29,7 +29,7 @@ message("Assisted telop catkin_LIBRARY_DIRS: " ${catkin_LIBRARY_DIRS})
 catkin_package(
   INCLUDE_DIRS include
   CATKIN_DEPENDS ${THIS_PACKAGE_ROS_DEPS}
-  DEPENDS Eigen
+  DEPENDS EIGEN3
 )
 
 add_executable(movo_assisted_teleop src/movo_assisted_teleop.cpp)
