@@ -19,6 +19,7 @@
 #include <Eigen/Dense>
 #include <dynamic_reconfigure/server.h>
 #include <ira_laser_tools/laserscan_multi_mergerConfig.h>
+#include <unordered_set>
 
 using namespace std;
 using namespace pcl;
@@ -87,7 +88,7 @@ void LaserscanMerger::laserscan_topic_parser()
 
     istringstream iss(laserscan_topics);
 	unordered_set<string> tokens;
-	for (istream_iterator<string> it(iss); i != istream_iterator<string>; ++it)
+	for (istream_iterator<string> it(iss); it != istream_iterator<string>(); ++it)
 	{
 		tokens.insert(*it);
 	}
@@ -95,7 +96,7 @@ void LaserscanMerger::laserscan_topic_parser()
 	ros::Rate retry_rate(0.5); // [hz]
 	while (attempts < 10)
 	{
-		ros::mater::getTopics(published_topics);
+		ros::master::getTopics(published_topics);
 		for (int i = 0; i < published_topics.size(); ++i)
 		{
 			if (tokens.find(published_topics[i].name) != tokens.end())
@@ -169,29 +170,29 @@ void LaserscanMerger::scanCallback(const sensor_msgs::LaserScan::ConstPtr& scan,
 		return;
 	}
 
-	unordered_set<string, ScanCloud> find_result = scan_clouds.find(topic);
+	map<string, ScanCloud>::iterator find_result = scan_clouds.find(topic);
 	if (find_result != scan_clouds.end())
 	{
 		sensor_msgs::convertPointCloudToPointCloud2(tmpCloud2,tmpCloud3);
-		pcl_conversions::toPCL(tmpCloud3, find_result->clouds);
-		find_result->cloud_modified = true;
+		pcl_conversions::toPCL(tmpCloud3, find_result->second.cloud);
+		find_result->second.cloud_modified = true;
 	}	
 
     // Count how many scans we have
 	int totalClouds = 0;
-	for (unordered_set<string, ScanCloud>::iterator it = scan_clouds.begin(); it != scan_clouds.end(); ++it)
+	for (map<string, ScanCloud>::iterator it = scan_clouds.begin(); it != scan_clouds.end(); ++it)
 	{
-		totalClouds += it->cloud_modified ? 1 : 0;
+		totalClouds += it->second.cloud_modified ? 1 : 0;
 	}
 
     // Go ahead only if all subscribed scans have arrived
 	if(totalClouds == scan_clouds.size())
 	{
 		pcl::PCLPointCloud2 merged_cloud;
-		for (unordered_set<string, ScanCloud>::iterator it = scan_clouds.begin(); it != scan_clouds.end(); ++it)
+		for (map<string, ScanCloud>::iterator it = scan_clouds.begin(); it != scan_clouds.end(); ++it)
 		{
-			pcl::concatenate(merged_cloud, it->cloud, merged_cloud);
-			it->cloud_modified = false;
+			pcl::concatenate(merged_cloud, it->second.cloud, merged_cloud);
+			it->second.cloud_modified = false;
 		}
 	
 		point_cloud_publisher_.publish(merged_cloud);
