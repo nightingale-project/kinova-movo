@@ -47,14 +47,14 @@ def validate_ipv4(argument,name):
     Each address must have 4 
     """
     if len(argument.split(".")) != 4:
-        print(("Invalid %s, must be of the form xxx.yyy.zzz.www" % name))
+        print("Invalid %s, must be of the form xxx.yyy.zzz.www" % name)
         exit(-1)
     for x in argument.split("."):
         if len(x) > 3:
-            print(("Invalid %s, must be of the form xxx.yyy.zzz.www" % name))
+            print("Invalid %s, must be of the form xxx.yyy.zzz.www" % name)
             exit(-1)
         if int(x) > 255:
-            print(("Invalid %s, octects must be less than 255" % name))
+            print("Invalid %s, octects must be less than 255" % name)
             exit(-1)
 
 def parse_hokuyo_ipv4(argument, name):
@@ -122,7 +122,7 @@ if __name__ == "__main__":
     """
     crc16.generate_crc_table()
     
-    print(("Connecting to Movo platform %s" % args.movo_settings[0]))
+    print("Connecting to Movo platform %s" % args.movo_settings[0])
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.connect((args.movo_settings[0],8080))
     
@@ -181,7 +181,7 @@ if __name__ == "__main__":
     if (args.update_hokuyo):
         msg = "$IP" + ip + nm + gw + chr(0x0a)
         
-        print(("Connecting to laser: %s" % args.hokuyo_settings[0]))
+        print("Connecting to laser: %s" % args.hokuyo_settings[0])
         sock = socket.socket()
         sock.connect((args.hokuyo_settings[0], 10940))
 

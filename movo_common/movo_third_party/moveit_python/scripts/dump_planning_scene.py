@@ -45,7 +45,7 @@ if __name__ == "__main__":
                          PlanningSceneComponents.ROBOT_STATE_ATTACHED_OBJECTS
         scene = service(req)
     except rospy.ServiceException as e:
-        print(("Failed to get planning scene: %s" % e))
+        print("Failed to get planning scene: %s" % e)
         exit(-1)
 
     if len(sys.argv) > 1:
@@ -55,7 +55,7 @@ if __name__ == "__main__":
 
     print("dumping")
     print(scene)
-    print(("to %s" % filename))
+    print("to %s" % filename)
 
     pickle.dump(scene, open(filename, "w"))
 

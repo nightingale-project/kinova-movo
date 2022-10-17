@@ -49,13 +49,13 @@ if __name__ == "__main__":
         rospy.init_node("remove_objects")
         scene = PlanningSceneInterface("base_link")
         for name in scene.getKnownCollisionObjects():
-            print(("Removing %s" % name))
+            print("Removing %s" % name)
             scene.removeCollisionObject(name, wait=False)
         scene.waitForSync()
     elif args.name:
         rospy.init_node("remove_objects")
         scene = PlanningSceneInterface("base_link")
-        print(("Removing %s" % args.name))
+        print("Removing %s" % args.name)
         if args.attached:
             scene.removeAttachedObject(args.name)
         else:
