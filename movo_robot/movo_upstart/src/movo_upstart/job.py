@@ -33,7 +33,7 @@ from glob import glob as glob_files
 
 from catkin.find_in_workspaces import find_in_workspaces
 
-import providers
+from . import providers
 
 
 class Job(object):
