@@ -18,3 +18,7 @@ Assert that the robot is not charging
 Assert estop is not engaged
 On movo1, run <roslaunch movo_bringup movo1.launch>
 On movo1, run <rosrun si_utils base_motion_test.py>
+
+# Using the ROS upstart service
+sudo systemctl start movo_system.service
+sudo systemctl stop movo_system.service
