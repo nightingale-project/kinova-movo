@@ -27,6 +27,7 @@ LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
 NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS 
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------"""
+import os
 
 import rospy
 import math
@@ -59,8 +60,8 @@ def get_ip_address(ifname):
     print(fctnl_ioctl)
     skt_inet_ntoa = socket.inet_ntoa(fctnl_ioctl[20:24])
     print(skt_inet_ntoa)
-    return skt_inet_ntoa
-
+    #return skt_inet_ntoa
+    return os.environ["KINOVA_MOVO2_IP"]
 
 def limit(signal_in,signal_limit):
 

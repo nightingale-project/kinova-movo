@@ -9,6 +9,10 @@
 #Default Movo network 
 export MOVO_IP_ADDRESS=10.66.171.5
 
+#Movo IPs
+export KINOVA_MOVO1_IP=10.66.171.1
+export KINOVA_MOVO2_IP=10.66.171.2
+
 # The reference frame for all the accessories and sensors
 export MOVO_PARENT_LINK=base_chassis_link
 
@@ -59,7 +63,7 @@ export MOVO_HAS_KINOVA_ARM=true
 export MOVO_HAS_TWO_KINOVA_ARMS=true
 export KINOVA_RIGHT_ARM_IP_ADDRESS=10.66.171.15
 export KINOVA_LEFT_ARM_IP_ADDRESS=10.66.171.16
-export KINOVA_ARM_IFACE=eth0
+export KINOVA_ARM_IFACE=enp0s25
 export MOVO_HAS_KINOVA_ARM_7DOF=true
 export MOVO_HAS_KINOVA_ARM_6DOF=false
 
