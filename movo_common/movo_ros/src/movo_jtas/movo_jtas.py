@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  \Platform: Linux/ROS Indigo
 --------------------------------------------------------------------"""
 from movo_joint_interface.jaco_joint_controller import SIArmController
-from movo_jtas.trajectory_smoother import TrajectorySmoother
+from .trajectory_smoother import TrajectorySmoother
 from moveit_python import MoveGroupInterface
 from moveit_msgs.msg import MoveItErrorCodes
 
