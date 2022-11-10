@@ -48,20 +48,19 @@ def dottedQuadToNum(ip):
 
 def get_ip_address(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    print(ifname[:15])
-    print(len(ifname[:15]))
     struct_pack = struct.pack('256s', bytes(ifname[:15], encoding='utf-8'))
-    print(struct_pack)
     fctnl_ioctl = fcntl.ioctl(
         s.fileno(),
         0x8915,  # SIOCGIFADDR
         struct_pack
     )
-    print(fctnl_ioctl)
     skt_inet_ntoa = socket.inet_ntoa(fctnl_ioctl[20:24])
-    print(skt_inet_ntoa)
-    #return skt_inet_ntoa
-    return os.environ["KINOVA_MOVO2_IP"]
+    if str(skt_inet_ntoa) == "129.97.71.49":
+        return os.environ["KINOVA_MOVO1_IP"]
+    if str(skt_inet_ntoa) == "129.97.71.50":
+        return os.environ["KINOVA_MOVO2_IP"]
+    return False
+
 
 def limit(signal_in,signal_limit):
 
