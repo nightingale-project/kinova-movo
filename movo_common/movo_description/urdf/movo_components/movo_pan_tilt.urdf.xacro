@@ -159,6 +159,25 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 			</collision>
 		</link>
 
+		<joint name="mating_gimbal" type="fixed">
+			<parent link="tilt_link"/>
+			<child link ="mating_block"/>
+			<origin xyz="0.09 0 -0.03 " rpy="0 0 0"/>
+		</joint>
+		<link name="mating_block" parent="tilt_link"> 
+			<visual>
+			  <geometry>
+			    <box size="0.064 0.064 0.11"/>
+		 	  </geometry>
+			</visual>
+			<collision>
+			  <geometry>
+			    <box size="0.064 0.064 0.11"/>
+		 	  </geometry>
+			</collision>
+		</link>
+
+
 
     </xacro:macro>
 
