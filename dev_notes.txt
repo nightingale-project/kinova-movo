@@ -46,14 +46,9 @@ Assert estop is not engaged
 On movo1, run <roslaunch movo_bringup movo1.launch>
 On movo1, run <rosrun si_utils head_jtas_test.py>
 
-# Connecting personal PC to movo1 master
-This is temporary and assumes movo1 is the ROS master. It does not care about about movo2
-On movo1:
-Ensure this is done on every terminal where ROS is running
-export ROS_MASTER_URI=http://129.97.71.49:11311
-export ROS_IP=129.97.71.49
-On your laptop:
-Ensure you've run all your source commands (ie. source devel/setup.bash). These other files can overwrite the following env var settings.
-export ROS_MASTER_URI=http://129.97.71.49:11311
-export ROS_IP=<your ip address in same subnet as movo1>
-
+# Enable Access Point on Movo2
+Connect your laptop to the the Movo wifi network
+There is no password
+Note: aliasing won't work. Use direct IP addresses of movos. movo1 = 10.66.171.1 movo2 = 10.66.171.2
+Note: Internet won't work
+In every new terminal, run: export ROS_MASTER_URI=http://10.66.171.2:11311 && export ROS_IP=<your ip address on the same subnet>
