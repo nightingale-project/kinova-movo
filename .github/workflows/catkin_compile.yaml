@@ -1,0 +1,17 @@
+name: ros_catkin_CI
+on: [push, pull_request]
+
+
+jobs:
+  catkin_check:
+    name: ROS 1 CI Catkin
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: betwo/github-setup-catkin@v1.3.0
+      with:
+        ros-version: 'noetic'
+    - run: catkin_make
+
+
