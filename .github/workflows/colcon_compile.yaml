@@ -12,7 +12,6 @@ env:
     movo_remote_teleop
     movo_upstart
     movo_viz
-    movo_demos
 
 jobs:
   compile:
