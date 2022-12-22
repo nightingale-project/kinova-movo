@@ -26,8 +26,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //////////////////////////////////////////////////////////////////////////////
 
-BREAK THIS FILE COMPILE??
-
 // Pluginlib
 #include <pluginlib/class_list_macros.h>
 
