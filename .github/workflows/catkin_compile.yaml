@@ -5,7 +5,7 @@ on: [push, pull_request]
 jobs:
   catkin_check:
     name: ROS 1 CI Catkin
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-20.04] 
 
     steps:
     - uses: actions/checkout@v3

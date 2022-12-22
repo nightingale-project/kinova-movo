@@ -11,7 +11,7 @@ env:
 jobs:
   compile:
     name: ROS 1 CI Action
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-20.04]
 
     container:
       image: ubuntu:focal
