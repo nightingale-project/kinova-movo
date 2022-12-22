@@ -15,6 +15,9 @@
     <run_depend>movo_sensor_filters</run_depend>
     <run_depend>robot_localization</run_depend>
     <run_depend>scan_tools</run_depend>
+    <run_depend>realsense2_description</run_depend>
+    <run_depend>realsense2_camera</run_depend>
+
     
 	<export>
 	</export>

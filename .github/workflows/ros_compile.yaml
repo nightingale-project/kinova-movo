@@ -3,7 +3,10 @@ on: [push, pull_request]
 
 env:
   PACKAGES_TO_TEST:
+    movo_bringup
     movo_ros
+    movo_config
+    movo_gazebo
 
 jobs:
   compile:
