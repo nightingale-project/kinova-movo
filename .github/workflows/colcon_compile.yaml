@@ -1,4 +1,4 @@
-name: ros_CI
+name: ros_colcon_CI
 on: [push, pull_request]
 
 env:
