@@ -31,3 +31,4 @@ jobs:
         with:
           target-ros1-distro: noetic
           package-name: ${{ env.PACKAGES_TO_TEST }}
+          skip-tests: true
