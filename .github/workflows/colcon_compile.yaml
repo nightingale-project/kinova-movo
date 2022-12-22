@@ -7,6 +7,12 @@ env:
     movo_ros
     movo_config
     movo_gazebo
+    movo_msgs
+    movo_network
+    movo_remote_teleop
+    movo_upstart
+    movo_viz
+    movo_demos
 
 jobs:
   compile:
