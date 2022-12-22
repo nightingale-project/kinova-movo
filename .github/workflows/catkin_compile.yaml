@@ -12,6 +12,7 @@ jobs:
     - uses: betwo/github-setup-catkin@v1.3.0
       with:
         ros-version: 'noetic'
+        workspace: '$GITHUB_WORKSPACE'
     - run: catkin_make
 
 
