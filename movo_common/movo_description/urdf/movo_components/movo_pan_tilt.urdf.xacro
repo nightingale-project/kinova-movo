@@ -28,9 +28,15 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
 <robot name="movo_pan_tilt" xmlns:xacro="http://ros.org/wiki/xacro">
-    <!-- swap out these d435 realsense files for sim (_d435.pal) and for real. -->
-    <!--xacro:include filename="$(find movo_description)/urdf/sensors/_d435.urdf.xacro"/ -->
-    <xacro:include filename="$(find movo_description)/urdf/sensors/_d435_sim.urdf.xacro"/>
+    <!-- swap out these d435 realsense files for sim (_d435_sim) and for real.  use "export MOVO_SIM=true" to set sim as environment variable-->
+
+    <xacro:unless value="$(optenv MOVO_SIM true)">
+       <xacro:include filename="$(find movo_description)/urdf/sensors/_d435.urdf.xacro"/>
+    </xacro:unless>
+       
+    <xacro:if value="$(optenv MOVO_SIM true)">
+       <xacro:include filename="$(find movo_description)/urdf/sensors/_d435_sim.urdf.xacro"/>
+    </xacro:if>
 
     <xacro:property name="M_PI" value="3.14159"/>
 
