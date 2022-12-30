@@ -12,6 +12,17 @@ env:
     movo_remote_teleop
     movo_upstart
     movo_viz
+    movo_robot
+    movo_desktop
+    movo_moveit_config
+    movo_common
+    movo_assisted_teleop
+    movo_navigation
+    movo_simulation
+    movo_dashboard
+    movo_gazebo_plugins
+    movo_7dof_moveit_config
+    
 
 jobs:
   compile:
