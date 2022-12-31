@@ -21,7 +21,7 @@ env:
     movo_simulation
     movo_dashboard
     movo_gazebo_plugins
-    movo_7dof_moveit_config
+    # movo_7dof_moveit_config
     
 
 jobs:
