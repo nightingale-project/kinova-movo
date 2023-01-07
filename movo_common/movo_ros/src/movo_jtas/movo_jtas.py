@@ -75,6 +75,16 @@ def calc_grip_dist(b):
 
 def calc_grip_angle(x):
     
+    closed_bound = 0.01
+    open_bound = 0.165
+
+    # bound the input so open and closed positions can be executed
+    if x < closed_bound:
+        x = closed_bound
+        rospy.loginfo(f"{x} hit closed bound {closed_bound}")
+    elif x > open_bound:
+        x = open_bound
+        rospy.loginfo(f"{x} hit open bound {open_bound}")
     dist = x*1000.0
     tmp = (0.5*dist-30.9476)/-87.0932
     a = math.asin(tmp)+0.627445866
