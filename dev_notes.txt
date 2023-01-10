@@ -7,8 +7,6 @@ movo2 can be reached by `ssh robohub@movo2`
 Camera uses the realsense-ros pkg
 Can be launched with <roslaunch movo_bringup movo2.launch> as part of movo
 Can be launched with <roslaunch realsense2_camera rs_camera.launch filters:=pointcloud>
-Camera Sim requires the clone of the PAL realsense plugin https://github.com/pal-robotics/realsense_gazebo_plugin into the workspace/src directory. Then build the workspace to compile the librealsense_gazebo_plugin.so.
-Recommended to use <export MOVO_SIM=true> to use the sim plugin for realsense camera. Otherwise will use the normal urdf file.
 run <realsense-viewer> on a computer with realsense plugged in to use the intel realsense GUI
 
 # ROS Install
