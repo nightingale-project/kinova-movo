@@ -7,9 +7,12 @@
     <arg name="x"   default="0.0"/>
     <arg name="y"   default="0.0"/>
     <arg name="z"   default="0.0"/>
+    <arg name="sim"   default="true"/>
 
 	<!-- send robot urdf to param server -->
-	<include file="$(find movo_description)/launch/movo_upload.launch"/>
+	<include file="$(find movo_description)/launch/movo_upload.launch">
+	    <arg name="sim" value ="$(arg sim)"/>
+	</include>
 
 	<!-- Robot state publisher -->
 	<node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher">
