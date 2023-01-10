@@ -25,21 +25,21 @@ elif [ "$HOSTNAME" = movo2 ]; then
 else
     # This should be changed to whatever physical interface is connected to the robot (ie wlan0, eth0, etc..)
     # we will try and find it and if nothing is found then we will default to lo
-    robot_iface=$(ifconfig | awk '/129.97.71/ {print $1}' RS="\n\n" | head -n 1)
+    robot_iface=$(ifconfig | awk '/10.66.171/ {print $1}' RS="\n\n" | head -n 1)
     if [ ! -z "$robot_iface" ]
     then
         #We found an interface on the robot subnet so lets use this interface
         export ROBOT_NETWORK=$robot_iface
         export ROS_IP=$(ip -4 address show $ROBOT_NETWORK | grep 'inet' | sed 's/.*inet \([0-9\.]\+\).*/\1/' | head -n 1)
         #now lets try to ping movo to see if it should be the master
-        ping -q -c 1 -W 1 movo2 >/dev/null
+        ping -q -c 1 -W 1 10.66.171.2 >/dev/null
         temp=$?
         if [ $temp -ne 0 ]; then
             #Could not find movo2 even though we are on the right network just make this PC master
             export ROS_MASTER_URI=http://$ROS_IP:11311/
         else
             #Found movo2 so lets use movo2 and the master_uri 
-            export ROS_MASTER_URI=http://movo2:11311/
+            export ROS_MASTER_URI=http://10.66.171.2:11311/
         fi
     else
         echo "No interface on the movo network, def sim settings"
