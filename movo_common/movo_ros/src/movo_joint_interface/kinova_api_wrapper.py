@@ -36,7 +36,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 --------------------------------------------------------------------"""
 from ctypes import *
 from .helpers import dottedQuadToNum,get_ip_address
-from .angles import deg_to_rad, rad_to_deg
+from .kinova_angles import deg_to_rad, rad_to_deg
 import rospy
 
 class KinovaDevice(Structure):
@@ -159,7 +159,7 @@ TELEOP_CONTROL       = 1
 
 
 class KinovaAPI(object):
-    def __init__(self, prefix, interface='eth0', robotIpAddress="10.66.171.15", subnetMask="255.255.255.0", localCmdport = 24000,localBcastPort = 24024,robotPort = 44000, dof="6dof"):
+    def __init__(self, prefix, interface='enp0s25', robotIpAddress="10.66.171.15", subnetMask="255.255.255.0", localCmdport = 24000,localBcastPort = 24024,robotPort = 44000, dof="6dof"):
         
         self.init_success = False
         self.api_online = False

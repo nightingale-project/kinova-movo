@@ -13,10 +13,9 @@
         name="sensors_bringup" output="screen"/>
         
     <!-- Platform Manipulation -->
-    <!-- Ben TODO Uncomment
     <node pkg="si_utils" type="timed_roslaunch"
         args="12 movo_bringup movo_manipulation.launch local:=false"
-        name="manipulation_bringup" output="screen"/> -->
+        name="manipulation_bringup" output="screen"/>
 
     <!-- Platform Teleoperation -->
     <node pkg="si_utils" type="timed_roslaunch"

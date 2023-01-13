@@ -417,7 +417,7 @@ class MovoArmJTAS(object):
 
     def _get_current_errors(self, joint_names):
         error = self._ctl.GetCurrentJointPositionError(joint_names)
-        return list(zip(joint_names, error))       
+        return list(zip(joint_names, error))
 
     def _update_feedback(self, cmd_point, joint_names, cur_time):
         self._fdbk.header.stamp = rospy.Duration.from_sec(rospy.get_time())
