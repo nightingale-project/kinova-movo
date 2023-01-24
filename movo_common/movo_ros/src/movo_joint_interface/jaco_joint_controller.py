@@ -34,6 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
  \Platform: Linux/ROS Indigo
 --------------------------------------------------------------------"""
+import time
 from ctypes import *
 import rospy
 from movo_msgs.msg import JacoCartesianVelocityCmd,KinovaActuatorFdbk
@@ -465,6 +466,7 @@ class SIArmController(object):
             self._gripper_jsmsg.header.seq+=1
 
     def _run_ctl(self,events):
+        rospy.loginfo(str(self._prefix) + " _run_ctrl time: " + str(time.time_ns()))
         if self._is_shutdown():
             return
         
