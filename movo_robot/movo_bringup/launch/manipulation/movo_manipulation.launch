@@ -9,7 +9,7 @@
     <group if="$(optenv MOVO_HAS_KINOVA_ARM false)">
 
         <!-- Launches the right arm -->
-        <node pkg="movo_ros" type="movo_arm_ctl" name="right_arm_ctl" output="screen" launch-prefix="strace -ff -e trace=%net">
+        <node pkg="movo_ros" type="movo_arm_ctl" name="right_arm_ctl" output="log" launch-prefix="strace -ttt -ff -e trace=%net -o /tmp/strace.log">
             <param name="arm_name" value="right"/>
             <param name="jaco_ip" value="$(optenv KINOVA_RIGHT_ARM_IP_ADDRESS 10.66.171.15)"/>
             <param name="interface" value="$(optenv KINOVA_ARM_IFACE eth0)"/>

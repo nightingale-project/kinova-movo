@@ -479,8 +479,9 @@ class SIArmController(object):
             now = time.time_ns()
             self._update_controller_data()
             time_diff = time.time_ns() - now
-            if time_diff > 10000000:
-                rospy.loginfo("_update_controller_data execution time: " + str(time_diff))
+            import os
+            if time_diff > 100000000:
+                rospy.loginfo("_update_controller_data execution time: " + str(time_diff) + " " + str(os.getpid()))
             
             if self.estop:
                 return
@@ -544,8 +545,8 @@ class SIArmController(object):
             now = time.time_ns()
             self.api.send_angular_vel_cmds(cmds)
             time_diff = time.time_ns() - now
-            if time_diff > 10000000:
-                rospy.loginfo("api.send_angular_vel_cmds execution time: " + str(time_diff))
+            if time_diff > 100000000:
+                rospy.loginfo("api.send_angular_vel_cmds execution time: " + str(time_diff) + " " + str(os.getpid()))
 
             """
             Publish the controller state
