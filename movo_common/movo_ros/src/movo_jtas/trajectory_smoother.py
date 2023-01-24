@@ -97,7 +97,7 @@ class TrajectorySmoother(object):
         if num_points == 1:
             # Add current position as trajectory point
             first_trajectory_point = JointTrajectoryPoint()
-            first_trajectory_point.positions = [pres_joint_pos[jnt] for jnt in joint_names]
+            first_trajectory_point.positions = deepcopy(pres_joint_pos)
             # To preserve desired velocities and accelerations, copy them to the first
             # trajectory point if the trajectory is only 1 point.
             if dimensions_dict['velocities']:

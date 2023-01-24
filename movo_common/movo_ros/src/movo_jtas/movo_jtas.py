@@ -37,6 +37,8 @@ from movo_joint_interface.jaco_joint_controller import SIArmController
 from .trajectory_smoother import TrajectorySmoother
 from moveit_python import MoveGroupInterface
 from moveit_msgs.msg import MoveItErrorCodes
+from std_msgs.msg import String
+
 
 from control_msgs.msg import (
     FollowJointTrajectoryAction, 
@@ -60,6 +62,7 @@ import actionlib
 import bisect
 import operator
 from copy import deepcopy
+import json
 
 def calc_grip_dist(b):
     l1 = 30.9476-87.0932*math.sin(b[0]-0.627445866)
@@ -113,6 +116,8 @@ class MovoArmJTAS(object):
         self._last_movement_time = rospy.get_time()
         self.dof = dof
         self._planner_homing = False
+
+        self.debug = rospy.Publisher('/debug', String, queue_size=10)
 
         """
         Define the joint names
@@ -482,6 +487,7 @@ class MovoArmJTAS(object):
         if (self._stopped_velocity > 0.0 and
             max([abs(cur_vel) for cur_vel in self._get_current_velocities(joint_names)]) >
                 self._stopped_velocity):
+            print("Error current_velocities: " + str(self._get_current_velocities(joint_names)))
             return False
         else:
             return True
@@ -543,12 +549,23 @@ class MovoArmJTAS(object):
             else:
                 cmd_time = 0.0
                 t = 0.0
+            # print("Current interval: ", idx)
+            # print("Time in interval ", cmd_time)
+            # print("Relative time: ", t)
 
             point = self._traj_smoother.GetBezierPoint(b_matrix, 
                                                        idx, 
                                                        t, 
                                                        cmd_time, 
                                                        dimensions_dict)
+            msg_dict = {
+                'time': cmd_time
+            }
+            for i in range(7):
+                msg_dict["point_" + str(i)] = point.positions[i]
+            msg = json.dumps(msg_dict)
+            # print(msg)
+            self.debug.publish(msg)
 
             """
             Command Joint Position, Velocity, Acceleration

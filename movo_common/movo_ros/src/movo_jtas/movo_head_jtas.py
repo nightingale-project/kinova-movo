@@ -362,7 +362,8 @@ class MovoHeadJTAS(object):
         Verify goal constraint
         """
         result = self._check_goal_state(joint_names, last)
-        
+        print(type(result))
+
         if result is True:
             rospy.loginfo("%s: Joint Trajectory Action Succeeded" %self._action_name)
             self._result.error_code = self._result.SUCCESSFUL

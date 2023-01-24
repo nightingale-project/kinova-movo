@@ -466,7 +466,8 @@ class SIArmController(object):
             self._gripper_jsmsg.header.seq+=1
 
     def _run_ctl(self,events):
-        rospy.loginfo(str(self._prefix) + " _run_ctrl time: " + str(time.time_ns()))
+        # now = time.time_ns()
+        # rospy.loginfo(str(self._prefix) + " _run_ctrl start time: " + str(time.time_ns()))
         if self._is_shutdown():
             return
         
@@ -475,17 +476,23 @@ class SIArmController(object):
             """
             First update the controller data
             """
+            now = time.time_ns()
             self._update_controller_data()
+            time_diff = time.time_ns() - now
+            if time_diff > 10000000:
+                rospy.loginfo("_update_controller_data execution time: " + str(time_diff))
             
             if self.estop:
                 return
         
             if (TELEOP_CONTROL == self._ctl_mode):
+                print("teleop")
                 self._init_ext_joint_position_control()
                 self._init_ext_gripper_control()
                 if ((rospy.get_time() - self.last_teleop_cmd_update) >= 1.0):
                     self.api.set_control_mode(AUTONOMOUS_CONTROL)
                     self._ctl_mode = AUTONOMOUS_CONTROL
+                    print("herer")
                     return
                 
                 if ((rospy.get_time() - self.last_teleop_cmd_update) >= 0.5):
@@ -534,8 +541,12 @@ class SIArmController(object):
                 else:
                     cmds.append(0.0)
 
+            now = time.time_ns()
             self.api.send_angular_vel_cmds(cmds)
-            
+            time_diff = time.time_ns() - now
+            if time_diff > 10000000:
+                rospy.loginfo("api.send_angular_vel_cmds execution time: " + str(time_diff))
+
             """
             Publish the controller state
             """    
@@ -551,5 +562,4 @@ class SIArmController(object):
             self._jstmsg.error.velocities= list(map(operator.sub, self._arm_cmds['velocity'], self._joint_fb['velocity']))
             self._jstmsg.error.accelerations=[0.0]*self._num_joints                
             self._jstpub.publish(self._jstmsg) 
-            self._jstmsg.header.seq +=1                       
-     
+            self._jstmsg.header.seq +=1
