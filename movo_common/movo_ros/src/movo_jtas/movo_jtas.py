@@ -60,6 +60,7 @@ import actionlib
 import bisect
 import operator
 from copy import deepcopy
+from numpy import clip
 
 def calc_grip_dist(b):
     l1 = 30.9476-87.0932*math.sin(b[0]-0.627445866)
@@ -74,11 +75,8 @@ def calc_grip_dist(b):
     return (dist * 0.001)
 
 def calc_grip_angle(x):
-    # bound x between 0 and 0.165 to prevent math errors
-    if x < 0:
-        x = 0
-    if x > 0.23:
-        x = 0.23
+    # bound x between 0 and 0.23 to prevent math errors
+    x = clip(x, 0, 0.23)
 
     dist = x*1000.0
     tmp = (0.5*dist-30.9476)/-87.0932
@@ -313,8 +311,6 @@ class MovoArmJTAS(object):
         # Continue commanding goal until success or timeout
         self._last_movement_time = rospy.get_time()
         self._last_gripper_pos = self._gripper_fdbk.position
-        # mapping 0 = fully closed, 56 = fully open
-        position *= 0.23
         while ((now_from_start(start_time) < self._gripper_timeout or
                self._gripper_timeout < 0.0) and not rospy.is_shutdown()):
             if self._gripper_server.is_preempt_requested():
