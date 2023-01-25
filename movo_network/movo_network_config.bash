@@ -18,10 +18,10 @@ if [ "$HOSTNAME" = movo1 ]; then
     export ROBOT_NETWORK=enp0s25
     export ROS_IP=$(ip -4 address show $ROBOT_NETWORK | grep 'inet' | sed 's/.*inet \([0-9\.]\+\).*/\1/' | head -n 1)
     export ROS_MASTER_URI=http://movo2:11311/
-    export KINOVA_MOVO1_IP=10.66.171.1
 elif [ "$HOSTNAME" = movo2 ]; then
     export ROBOT_NETWORK=br0
     export ROS_IP=$(ip -4 address show $ROBOT_NETWORK | grep 'inet' | sed 's/.*inet \([0-9\.]\+\).*/\1/' | head -n 1)
+    export ROS_MASTER_URI=http://movo2:11311/
 else
     # This should be changed to whatever physical interface is connected to the robot (ie wlan0, eth0, etc..)
     # we will try and find it and if nothing is found then we will default to lo
