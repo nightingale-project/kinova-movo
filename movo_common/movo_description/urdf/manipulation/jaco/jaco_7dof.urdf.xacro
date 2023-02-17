@@ -360,7 +360,102 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
         </joint>
 
         <link name="${prefix}ee_link"/>  
-                
+
+	
+
+	<xacro:property name="isright" value="${prefix}"/>
+	<xacro:if value="${isright == 'right_'}">
+		<material name="black">
+			<color rgba="0 0 0 1"/>
+		</material>
+
+		<material name="brown">
+			<color rgba="${222/255} ${207/255} ${195/255} 1.0"/>
+		</material>
+
+
+		<joint name="${prefix}bin_handle_joint" type="fixed">
+			<parent link="${prefix}ee_link"/>			     
+			<child link="${prefix}bin_handle"/>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+		</joint>
+		<joint name="${prefix}bin_joint" type="fixed">
+			<parent link="${prefix}ee_link"/>			     
+			<child link="${prefix}bin"/>
+			<origin xyz="0 -0.16 0" rpy="0 0 0"/>
+		</joint>
+		<joint name="${prefix}bin_clamp_1_joint" type="fixed">
+			<parent link="${prefix}ee_link"/>			     
+			<child link="${prefix}bin_clamp_1"/>
+			<origin xyz="0 -0.05 0.101" rpy="0 0 0"/>
+		</joint>
+		<joint name="${prefix}bin_clamp_2_joint" type="fixed">
+			<parent link="${prefix}ee_link"/>			     
+			<child link="${prefix}bin_clamp_2"/>
+			<origin xyz="0 -0.05 -0.101" rpy="0 0 0"/>
+		</joint>
+
+
+		<link name="${prefix}bin_handle" parent="${prefix}ee_fixed_joint">
+			<visual>
+				<geometry>
+					<cylinder length="0.2032" radius="0.024"/>
+				</geometry>
+				<material name="black"/>
+			</visual>
+			<collision>
+				<geometry>
+					<cylinder length="0.21" radius="0.03"/>
+				</geometry>
+			</collision>
+		</link>
+
+		<link name="${prefix}bin" parent="${prefix}ee_fixed_joint">
+			<visual>
+				<geometry>
+					<box size="0.305 0.1524 0.2032"/>
+				</geometry>
+				<material name="brown"/>
+			</visual>
+			<collision>
+				<geometry>
+					<box size="0.31 0.16 0.21"/>
+				</geometry>
+			</collision>
+		</link>
+
+		<link name="${prefix}bin_clamp_1" parent="${prefix}ee_fixed_joint">
+			<visual>
+				<geometry>
+					<box size="0.0635 0.14 0.00635"/>
+				</geometry>
+				<material name="black"/>
+			</visual>
+			<collision>
+				<geometry>
+					<box size="0.07 0.15 0.007"/>
+				</geometry>
+			</collision>
+		</link>
+
+		<link name="${prefix}bin_clamp_2" parent="${prefix}ee_fixed_joint">
+			<visual>
+				<geometry>
+					<box size="0.0635 0.14 0.00635"/>
+				</geometry>
+				<material name="black"/>
+			</visual>
+			<collision>
+				<geometry>
+					<box size="0.07 0.15 0.007"/>
+				</geometry>
+			</collision>
+		</link>
+
+
+	</xacro:if>
+
+               
         <xacro:jaco_7dof_arm_transmission prefix="${prefix}" />
 
   </xacro:macro>
